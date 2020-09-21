@@ -1,0 +1,137 @@
+{
+  "question1": [
+    [
+      {
+        "correctoption": "Javascript",
+        "options": [
+          {
+            "label": "Java",
+            "value": "Java"
+          },
+          {
+            "label": "PHP",
+            "value": "PHP"
+          },
+          {
+            "label": "Javascript",
+            "value": "Javascript"
+          },
+          {
+            "label": "IOS",
+            "value": "IOS"
+          }
+        ],
+        "question": "React is a ____ library",
+        "id": "1"
+      }
+    ]
+  ],
+  "question2": [
+    [
+      {
+        "correctoption": "JSX",
+        "options": [
+          {
+            "label": "XML",
+            "value": "XML"
+          },
+          {
+            "label": "YML",
+            "value": "YML"
+          },
+          {
+            "label": "HTML",
+            "value": "HTML"
+          },
+          {
+            "label": "JSX",
+            "value": "JSX"
+          }
+        ],
+        "question": "____ tag syntax is used in React",
+        "id": "2"
+      }
+    ]
+  ],
+  "question3": [
+    [
+      {
+        "correctoption": "Single root DOM node",
+        "options": [
+          {
+            "label": "Single root DOM node",
+            "value": "Single root DOM node"
+          },
+          {
+            "label": "Double root DOM node",
+            "value": "Double root DOM node"
+          },
+          {
+            "label": "Multiple root DOM node",
+            "value": "Multiple root DOM node"
+          },
+          {
+            "label": "None of the above",
+            "value": "None of the above"
+          }
+        ],
+        "question": "Application built with just React usually have ____",
+        "id": "3"
+      }
+    ]
+  ],
+  "question4": [
+    [
+      {
+        "correctoption": "immutable",
+        "options": [
+          {
+            "label": "mutable",
+            "value": "mutable"
+          },
+          {
+            "label": "immutable",
+            "value": "immutable"
+          },
+          {
+            "label": "variable",
+            "value": "variable"
+          },
+          {
+            "label": "none of the above",
+            "value": "none of the above"
+          }
+        ],
+        "question": "React elements are ____",
+        "id": "4"
+      }
+    ]
+  ],
+  "question5": [
+    [
+      {
+        "correctoption": "components",
+        "options": [
+          {
+            "label": "functions",
+            "value": "functions"
+          },
+          {
+            "label": "array",
+            "value": "array"
+          },
+          {
+            "label": "components",
+            "value": "components"
+          },
+          {
+            "label": "json data",
+            "value": "json data"
+          }
+        ],
+        "question": "React allows to split UI into independent and reusable pieses of ____",
+        "id": "5"
+      }
+    ]
+  ]
+}
