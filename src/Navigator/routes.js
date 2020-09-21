@@ -1,6 +1,7 @@
 import React, {Component} from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
+import StartScreen from '../Screens/startScreen';
 import AnswerScreen from '../Screens/answer';
 import FirstQuestion from '../Screens/question1';
 import SecondQuestion from '../Screens/question2';
@@ -21,11 +22,12 @@ function AppHomeStack() {
   return (
     <NavigationContainer>
       <HomeStack.Navigator
-        initialRouteName="FirstQuestion"
+        initialRouteName="StartScreen"
         screenOptions={{
           headerShown: false,
-          gestureEnabled: true,
+          gestureEnabled: false,
         }}>
+        <HomeStack.Screen name="StartScreen" component={StartScreen} />
         <HomeStack.Screen name="FirstQuestion" component={FirstQuestion} />
         <HomeStack.Screen name="SecondQuestion" component={SecondQuestion} />
         <HomeStack.Screen name="AnswerScreen" component={AnswerScreen} />

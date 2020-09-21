@@ -16,49 +16,72 @@ import styles from '../Component/ListStyles';
 import AppStatusBar from '../Common/appStatusBar';
 import moment from 'moment';
 import {connect} from 'react-redux';
-import {updateQuestionAnswerList, changeOptionStatus} from '../Redux/action';
+import Header from '../Common/header';
+import {updateQuestionAnswerList} from '../Redux/action';
 
 class SecondQuestion extends Component {
   constructor(props) {
     super(props);
     this.state = {
       refresh: false,
-      isAnswered: false,
       data: Data.question2[0],
-      value: [],
-      stayDuration: moment.duration().add({seconds: 5}),
-      secs: 0,
+      isAnswered: false,
+      answerDuration: moment.duration().add({seconds: 5}),
+      questionDuration: moment.duration().add({minutes: 1}),
+      stayTimeAfterAnswer: 0,
+      stayTimeWithoutAnswer: 0,
     };
   }
 
-  componentDidUpdate() {
-    if (this.state.stayDuration._milliseconds === 0) {
-      this.props.navigation.navigate('AnswerScreen');
+  componentDidUpdate = () => {
+    const {navigation} = this.props;
+    const {questionDuration, answerDuration, isAnswered} = this.state;
+    if (answerDuration._milliseconds === 0 && isAnswered === true) {
+      navigation.replace('AnswerScreen');
     }
-  }
-
-  static navigationOptions = {
-    title: 'React Quiz',
-    headdingStyle: {
-      fontWeight: '300',
-    },
-    headerStyle: {
-      backgroundColor: '#3db0f7',
-    },
-    headerTitleStyle: {alignSelf: 'center', color: 'white'},
+    if (questionDuration._milliseconds === 0 && isAnswered === false) {
+      navigation.replace('AnswerScreen');
+    }
   };
 
-  startTimer = () => {
+  componentDidMount = async () => {
+    this.onQuestionTimer();
+  };
+
+  componentWillUnmount = () => {
+    this.setState({
+      answerDuration: '',
+      questionDuration: '',
+    });
+  };
+
+  onAnswerTimer = () => {
     const x = setInterval(() => {
-      let {stayDuration} = this.state;
-      if (stayDuration <= 0) {
+      let {answerDuration} = this.state;
+      if (answerDuration <= 0) {
         clearInterval(x);
       } else {
-        stayDuration = stayDuration.subtract(1, 's');
-        const secs = stayDuration.seconds();
+        answerDuration = answerDuration.subtract(1, 's');
+        const secs = answerDuration.seconds();
         this.setState({
-          secs,
-          stayDuration,
+          stayTimeAfterAnswer: secs,
+          answerDuration,
+        });
+      }
+    }, 1000);
+  };
+
+  onQuestionTimer = () => {
+    const x = setInterval(() => {
+      let {questionDuration} = this.state;
+      if (questionDuration <= 0) {
+        clearInterval(x);
+      } else {
+        questionDuration = questionDuration.subtract(1, 's');
+        const secs = questionDuration.seconds();
+        this.setState({
+          stayTimeWithoutAnswer: secs,
+          questionDuration,
         });
       }
     }, 1000);
@@ -67,21 +90,6 @@ class SecondQuestion extends Component {
   onPullDown = () => {
     this.setState({refresh: true});
     this.setState({refresh: false});
-  };
-
-  componentWillUnmount = () => {
-    this.startTimer();
-  };
-
-  onSubmit = (id, value, correctoption, question) => {
-    const data = {
-      id: id,
-      value: value,
-      correctoption: correctoption,
-      question: question,
-    };
-    const newData = [...this.state.value, data];
-    this.setState({value: newData});
   };
 
   clickOnAnswer = async (id, value, correctoption, question) => {
@@ -95,7 +103,7 @@ class SecondQuestion extends Component {
       },
     };
     this.setState({isAnswered: true});
-    this.startTimer();
+    this.onAnswerTimer();
     await updateQuestionAnswerList(params);
   };
 
@@ -112,12 +120,26 @@ class SecondQuestion extends Component {
     );
   };
   render() {
-    const {secs} = this.state;
+    const {stayTimeAfterAnswer, stayTimeWithoutAnswer} = this.state;
     return (
       <SafeAreaView style={styles.container}>
         <AppStatusBar color={'light-content'} />
-        <View style={styles.timerBg}>
-          <Text style={styles.timerText}>{`${secs}`}</Text>
+        <Header title={'React Quiz'} />
+        <View style={{flexDirection: 'row', justifyContent: 'space-around'}}>
+          <View style={styles.timerBg}>
+            <Text
+              style={[
+                styles.timerText,
+                {color: 'red'},
+              ]}>{`${stayTimeWithoutAnswer}`}</Text>
+          </View>
+          <View style={styles.timerBg}>
+            <Text
+              style={[
+                styles.timerText,
+                {color: 'green'},
+              ]}>{`${stayTimeAfterAnswer}`}</Text>
+          </View>
         </View>
         {this.props.loading ? (
           <ActivityIndicator
@@ -138,11 +160,6 @@ class SecondQuestion extends Component {
             }
           />
         )}
-        {/* <Button
-          onPress={() => this.props.navigation.navigate('AnswerScreen')}
-          title="Submit"
-          color="#841584"
-        /> */}
       </SafeAreaView>
     );
   }
@@ -156,5 +173,4 @@ const mapStateToProps = (state, ownProps) => {
 
 export default connect(mapStateToProps, {
   updateQuestionAnswerList,
-  changeOptionStatus,
 })(SecondQuestion);

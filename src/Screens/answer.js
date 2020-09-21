@@ -4,13 +4,15 @@ import {
   FlatList,
   RefreshControl,
   View,
+  Button,
   SafeAreaView,
 } from 'react-native';
 import Card from '../Common/Card';
-import Data from '../Component/data.json';
 import styles from '../Component/ListStyles';
 import AppStatusBar from '../Common/appStatusBar';
 import {connect} from 'react-redux';
+import Header from '../Common/header';
+import {clearAnswerList} from '../Redux/action';
 
 class Answer extends Component {
   constructor(props) {
@@ -20,20 +22,14 @@ class Answer extends Component {
     };
   }
 
-  static navigationOptions = {
-    title: 'React Quiz',
-    headdingStyle: {
-      fontWeight: '300',
-    },
-    headerStyle: {
-      backgroundColor: '#3db0f7',
-    },
-    headerTitleStyle: {alignSelf: 'center', color: 'white'},
-  };
-
   onPullDown = () => {
     this.setState({refresh: true});
     this.setState({refresh: false});
+  };
+
+  backToInitial = async () => {
+    this.props.clearAnswerList();
+    this.props.navigation.navigate('StartScreen');
   };
 
   renderItem = ({item}) => {
@@ -52,6 +48,7 @@ class Answer extends Component {
     return (
       <SafeAreaView style={styles.container}>
         <AppStatusBar color={'light-content'} />
+        <Header title={'Result Of Quiz'} />
         {this.props.loading ? (
           <ActivityIndicator
             style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}
@@ -59,18 +56,27 @@ class Answer extends Component {
             color="black"
           />
         ) : (
-          <FlatList
-            data={QuestionAnswer.answeredData}
-            renderItem={(item) => this.renderItem(item)}
-            keyExtractor={(item, index) => index.toString()}
-            refreshControl={
-              <RefreshControl
-                refreshing={this.state.refresh}
-                onRefresh={this.onPullDown}
-              />
-            }
-          />
+          <View style={styles.resultView}>
+            <FlatList
+              data={QuestionAnswer.answeredData}
+              renderItem={(item) => this.renderItem(item)}
+              keyExtractor={(item, index) => index.toString()}
+              refreshControl={
+                <RefreshControl
+                  refreshing={this.state.refresh}
+                  onRefresh={this.onPullDown}
+                />
+              }
+            />
+          </View>
         )}
+        <View style={[styles.buttonStyle, {marginBottom: 40}]}>
+          <Button
+            onPress={() => this.backToInitial()}
+            title="Back to Initial"
+            color="blue"
+          />
+        </View>
       </SafeAreaView>
     );
   }
@@ -82,4 +88,6 @@ const mapStateToProps = (state, ownProps) => {
   };
 };
 
-export default connect(mapStateToProps)(Answer);
+export default connect(mapStateToProps, {
+  clearAnswerList,
+})(Answer);
