@@ -1,9 +1,51 @@
 import React from 'react';
-import {Button, View, Text, ImageBackground} from 'react-native';
+import {
+  Button,
+  View,
+  Text,
+  ImageBackground,
+  BackHandler,
+  Alert,
+} from 'react-native';
 import AppStatusBar from '../Common/appStatusBar';
 import styles from '../Component/ListStyles';
 
 export default class StartScreen extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = {};
+  }
+
+  componentDidMount = async () => {
+    BackHandler.addEventListener('hardwareBackPress', this.handleBackPress);
+  };
+
+  componentWillUnmount = () => {
+    BackHandler.removeEventListener('hardwareBackPress', this.handleBackPress);
+  };
+
+  handleBackPress = () => {
+    Alert.alert(
+      'EXAM APP',
+      'Are you want to close the app ?',
+      [
+        {
+          text: 'Cancel',
+          onPress: () => null,
+          style: 'cancel',
+        },
+        {
+          text: 'OK',
+          onPress: () => BackHandler.exitApp(),
+        },
+      ],
+      {
+        cancelable: false,
+      },
+    );
+    return true;
+  };
+
   render() {
     return (
       <ImageBackground

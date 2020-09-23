@@ -1,5 +1,5 @@
 {
-  "question1": [
+  "question": [
     [
       {
         "correctoption": "Javascript",
@@ -24,9 +24,7 @@
         "question": "React is a ____ library",
         "id": "1"
       }
-    ]
-  ],
-  "question2": [
+    ],
     [
       {
         "correctoption": "JSX",
@@ -51,9 +49,7 @@
         "question": "____ tag syntax is used in React",
         "id": "2"
       }
-    ]
-  ],
-  "question3": [
+    ],
     [
       {
         "correctoption": "Single root DOM node",
@@ -78,9 +74,7 @@
         "question": "Application built with just React usually have ____",
         "id": "3"
       }
-    ]
-  ],
-  "question4": [
+    ],
     [
       {
         "correctoption": "immutable",
@@ -105,9 +99,7 @@
         "question": "React elements are ____",
         "id": "4"
       }
-    ]
-  ],
-  "question5": [
+    ],
     [
       {
         "correctoption": "components",
